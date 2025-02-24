@@ -1,1 +1,11 @@
+
 project_id = "rktrjxiwcqhrhzhtqfli"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[[functions]]
+name = "send-order-confirmation"
+verify_jwt = true
