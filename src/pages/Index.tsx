@@ -1,12 +1,11 @@
-
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-
 const Index = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-
+  const {
+    user
+  } = useAuth();
   const handleGetStarted = () => {
     if (user) {
       navigate("/order");
@@ -14,25 +13,16 @@ const Index = () => {
       navigate("/auth");
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-green-50">
+  return <div className="min-h-screen bg-gradient-to-b from-white to-green-50">
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-green-900 mb-6 animate-fade-in">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 animate-fade-in text-gray-950 text-center mx-[15px] my-0">
               Web<span className="text-emerald-500">+</span> Studio
             </h1>
-            <p className="text-xl md:text-2xl text-green-700 mb-8 max-w-3xl mx-auto">
-              Your vision, our expertise. We create stunning websites tailored to your needs.
-            </p>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={handleGetStarted}
-              className="text-lg px-8 py-6 h-auto bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-xl hover:shadow-green-200/50 transition-all duration-300"
-            >
+            <p className="text-xl md:text-2xl text-green-700 mb-8 max-w-3xl mx-auto">Your vision, our expertise. We transform your idea into a live website.</p>
+            <Button size="lg" variant="secondary" onClick={handleGetStarted} className="text-lg px-8 py-6 h-auto bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-xl hover:shadow-green-200/50 transition-all duration-300">
               Get Started NOW
             </Button>
           </div>
@@ -72,17 +62,11 @@ const Index = () => {
           <p className="text-green-700 mb-8">
             Let's create something amazing together. Click below to begin your journey.
           </p>
-          <Button 
-            onClick={handleGetStarted} 
-            size="lg"
-            className="bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
-          >
+          <Button onClick={handleGetStarted} size="lg" className="bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
             Start Your Project
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
