@@ -8,7 +8,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import emailjs from '@emailjs/browser';
+
 const SITE_TYPES = ["Portfolio Website", "SaaS Application", "E-commerce Store", "Business Website", "Blog Platform", "Custom Solution"];
+
 const Order = () => {
   const navigate = useNavigate();
   const {
@@ -43,10 +46,12 @@ const Order = () => {
       product: value
     }));
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) return;
     setLoading(true);
+
     try {
       // Save order to database
       const { error: dbError } = await supabase.from("orders").insert({
@@ -55,15 +60,36 @@ const Order = () => {
       });
       if (dbError) throw dbError;
 
-      // Send confirmation emails
-      const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
-        body: { order: formData }
-      });
-      if (emailError) throw emailError;
+      // Send email to customer
+      await emailjs.send(
+        'service_zf8dg1g', // Your EmailJS service ID
+        'template_jame63i', // Customer template ID
+        {
+          to_name: formData.name,
+          product: formData.product,
+          notes: formData.notes,
+          to_email: formData.email,
+        },
+        'LWBxSZHxgGGifV_Y7' // Your EmailJS public key
+      );
+
+      // Send email to owner
+      await emailjs.send(
+        'service_zf8dg1g', // Your EmailJS service ID
+        'template_cc4vq48', // Owner template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          product: formData.product,
+          notes: formData.notes,
+        },
+        'LWBxSZHxgGGifV_Y7' // Your EmailJS public key
+      );
 
       toast({
         title: "Order Submitted Successfully! 🎉",
-        description: "We've received your website request and will contact you within 24 hours via email.",
+        description: "We've received your order and sent you a confirmation email. We'll contact you within 24 hours!",
         duration: 5000,
         className: "bg-green-50 border-green-200",
       });
@@ -83,6 +109,7 @@ const Order = () => {
       setLoading(false);
     }
   };
+
   return <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-8">
