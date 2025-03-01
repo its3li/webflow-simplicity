@@ -49,37 +49,35 @@ const Order = () => {
     setLoading(true);
     try {
       // Save order to database
-      const {
-        error: dbError
-      } = await supabase.from("orders").insert({
+      const { error: dbError } = await supabase.from("orders").insert({
         ...formData,
         user_id: user.id
       });
       if (dbError) throw dbError;
 
       // Send confirmation emails
-      const {
-        error: emailError
-      } = await supabase.functions.invoke("send-order-confirmation", {
-        body: {
-          order: formData
-        }
+      const { error: emailError } = await supabase.functions.invoke("send-order-confirmation", {
+        body: { order: formData }
       });
       if (emailError) throw emailError;
+
       toast({
-        title: "Order Submitted Successfully!",
-        description: "We'll contact you shortly to discuss your requirements."
+        title: "Order Submitted Successfully! 🎉",
+        description: "We've received your website request and will contact you within 24 hours via email.",
+        duration: 5000,
+        className: "bg-green-50 border-green-200",
       });
 
       // Show success message and redirect after delay
       setTimeout(() => {
         navigate("/");
-      }, 3000);
+      }, 5000);
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message
+        title: "Submission Failed",
+        description: error.message || "There was an error submitting your order. Please try again.",
+        duration: 7000,
       });
     } finally {
       setLoading(false);
