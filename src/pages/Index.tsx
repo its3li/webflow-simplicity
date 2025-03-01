@@ -22,9 +22,7 @@ const Index = () => {
               Web<span className="text-emerald-500">+</span> Studio
             </h1>
             <p className="text-xl md:text-2xl text-green-700 mb-8 max-w-3xl mx-auto">Your vision, our expertise. We transform your idea into a live website.</p>
-            <Button size="lg" variant="secondary" onClick={handleGetStarted} className="text-lg px-8 py-6 h-auto bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-xl hover:shadow-green-200/50 transition-all duration-300">
-              Get Started NOW
-            </Button>
+            <Button size="lg" variant="secondary" onClick={handleGetStarted} className="px-8 py-2 h-auto bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 shadow-lg hover:shadow-green-300/40 transition-all duration-300 ease-in-out rounded-xl text-base font-semibold text-[#f7fef7] text-center">Get Started  </Button>
           </div>
         </div>
       </section>
