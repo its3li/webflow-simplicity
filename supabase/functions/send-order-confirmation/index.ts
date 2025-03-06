@@ -30,7 +30,6 @@ serve(async (req) => {
         <ul>
           <li>Site Type: ${order.product}</li>
           <li>Additional Notes: ${order.notes || 'None'}</li>
-          <li>Quantity: ${order.quantity}</li>
         </ul>
         <p>We'll contact you shortly at ${order.phone || 'your email address'} to discuss your requirements.</p>
         <p>Best regards,<br>Web+ Studio Team</p>
@@ -49,13 +48,11 @@ serve(async (req) => {
           <li>Name: ${order.name}</li>
           <li>Email: ${order.email}</li>
           <li>Phone: ${order.phone || 'Not provided'}</li>
-          <li>Address: ${order.address}</li>
         </ul>
         <h2>Order Details:</h2>
         <ul>
           <li>Site Type: ${order.product}</li>
           <li>Additional Notes: ${order.notes || 'None'}</li>
-          <li>Quantity: ${order.quantity}</li>
         </ul>
       `
     })

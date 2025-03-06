@@ -8,10 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import emailjs from '@emailjs/browser';
-
-// Initialize EmailJS
-emailjs.init("LWBxSZHxgGGifV_Y7");
 
 const SITE_TYPES = ["Portfolio Website", "SaaS Application", "E-commerce Store", "Business Website", "Blog Platform", "Custom Solution"];
 
@@ -63,36 +59,12 @@ const Order = () => {
       });
       if (dbError) throw dbError;
 
-      console.log('Sending customer email...');
-      // Send email to customer
-      const customerEmailResponse = await emailjs.send(
-        'service_zf8dg1g',
-        'template_jame63i',
-        {
-          to_name: formData.name,
-          product: formData.product,
-          notes: formData.notes,
-          to_email: formData.email,
-        },
-        'LWBxSZHxgGGifV_Y7'
-      );
-      console.log('Customer email response:', customerEmailResponse);
-
-      console.log('Sending owner email...');
-      // Send email to owner
-      const ownerEmailResponse = await emailjs.send(
-        'service_zf8dg1g',
-        'template_cc4vq48',
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          phone: formData.phone,
-          product: formData.product,
-          notes: formData.notes,
-        },
-        'LWBxSZHxgGGifV_Y7'
-      );
-      console.log('Owner email response:', ownerEmailResponse);
+      // Send confirmation emails using the edge function
+      const { error: emailError } = await supabase.functions.invoke('send-order-confirmation', {
+        body: { order: formData }
+      });
+      
+      if (emailError) throw emailError;
 
       toast({
         title: "Order Submitted Successfully! 🎉",
@@ -106,7 +78,7 @@ const Order = () => {
         navigate("/");
       }, 5000);
     } catch (error: any) {
-      console.error('Email sending error:', error);
+      console.error('Error submitting order:', error);
       toast({
         variant: "destructive",
         title: "Submission Failed",
@@ -173,4 +145,5 @@ const Order = () => {
       </div>
     </div>;
 };
+
 export default Order;
