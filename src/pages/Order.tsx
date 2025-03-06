@@ -60,23 +60,26 @@ const Order = () => {
       });
       if (dbError) throw dbError;
 
+      console.log('Sending customer email...');
       // Send email to customer
-      await emailjs.send(
-        'service_zf8dg1g', // Your EmailJS service ID
-        'template_jame63i', // Customer template ID
+      const customerEmailResponse = await emailjs.send(
+        'service_zf8dg1g',
+        'template_jame63i',
         {
           to_name: formData.name,
           product: formData.product,
           notes: formData.notes,
           to_email: formData.email,
         },
-        'LWBxSZHxgGGifV_Y7' // Your EmailJS public key
+        'LWBxSZHxgGGifV_Y7'
       );
+      console.log('Customer email response:', customerEmailResponse);
 
+      console.log('Sending owner email...');
       // Send email to owner
-      await emailjs.send(
-        'service_zf8dg1g', // Your EmailJS service ID
-        'template_cc4vq48', // Owner template ID
+      const ownerEmailResponse = await emailjs.send(
+        'service_zf8dg1g',
+        'template_cc4vq48',
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -84,8 +87,9 @@ const Order = () => {
           product: formData.product,
           notes: formData.notes,
         },
-        'LWBxSZHxgGGifV_Y7' // Your EmailJS public key
+        'LWBxSZHxgGGifV_Y7'
       );
+      console.log('Owner email response:', ownerEmailResponse);
 
       toast({
         title: "Order Submitted Successfully! 🎉",
@@ -99,6 +103,7 @@ const Order = () => {
         navigate("/");
       }, 5000);
     } catch (error: any) {
+      console.error('Email sending error:', error);
       toast({
         variant: "destructive",
         title: "Submission Failed",
