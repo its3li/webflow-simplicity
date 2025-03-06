@@ -10,6 +10,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import emailjs from '@emailjs/browser';
 
+// Initialize EmailJS
+emailjs.init("LWBxSZHxgGGifV_Y7");
+
 const SITE_TYPES = ["Portfolio Website", "SaaS Application", "E-commerce Store", "Business Website", "Blog Platform", "Custom Solution"];
 
 const Order = () => {
